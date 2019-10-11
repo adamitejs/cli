@@ -21,7 +21,7 @@ $ npm install -g @adamite/cli
 $ adamite COMMAND
 running command...
 $ adamite (-v|--version|version)
-@adamite/cli/0.1.0 darwin-x64 node-v8.15.1
+@adamite/cli/0.1.0-beta.0 darwin-x64 node-v8.15.1
 $ adamite --help [COMMAND]
 USAGE
   $ adamite COMMAND
@@ -30,28 +30,8 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`adamite hello [FILE]`](#adamite-hello-file)
 * [`adamite help [COMMAND]`](#adamite-help-command)
-
-## `adamite hello [FILE]`
-
-describe the command here
-
-```
-USAGE
-  $ adamite hello [FILE]
-
-OPTIONS
-  -f, --force
-  -h, --help       show CLI help
-  -n, --name=name  name to print
-
-EXAMPLE
-  $ adamite hello
-  hello world from ./src/hello.ts!
-```
-
-_See code: [src/commands/hello.ts](https://github.com/adamitejs/cli/blob/v0.1.0/src/commands/hello.ts)_
+* [`adamite start [EXECUTABLE]`](#adamite-start-executable)
 
 ## `adamite help [COMMAND]`
 
@@ -69,4 +49,15 @@ OPTIONS
 ```
 
 _See code: [@oclif/plugin-help](https://github.com/oclif/plugin-help/blob/v2.2.0/src/commands/help.ts)_
+
+## `adamite start [EXECUTABLE]`
+
+starts an Adamite server
+
+```
+USAGE
+  $ adamite start [EXECUTABLE]
+```
+
+_See code: [src/commands/start.ts](https://github.com/adamitejs/cli/blob/v0.1.0-beta.0/src/commands/start.ts)_
 <!-- commandsstop -->
