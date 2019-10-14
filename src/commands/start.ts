@@ -41,12 +41,11 @@ export default class Start extends Command {
     }
 
     if (!args.executable) {
-      adamiteHelper.startApi();
-      enabledServices.forEach(s => adamiteHelper.startService(s));
+      adamiteHelper.startServices(["api", ...enabledServices]);
     } else if (args.executable === "api") {
-      adamiteHelper.startApi();
+      adamiteHelper.startServices(["api"]);
     } else {
-      adamiteHelper.startService(args.executable);
+      adamiteHelper.startServices([args.executable]);
     }
   }
 

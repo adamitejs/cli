@@ -1,5 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
+import * as concurrently from "concurrently";
 
 export default class AdamiteHelper {
   verifyCwdIsAdamiteProject() {
@@ -25,22 +26,12 @@ export default class AdamiteHelper {
     return Object.keys(services);
   }
 
-  startApi() {
-    require(path.join(process.cwd(), "node_modules", "@adamite/api"))(
-      this.getAdamiteConfig()
+  startServices(services: string[]) {
+    return concurrently(
+      services.map(s => ({
+        command: `node bin/${s}`,
+        name: s
+      }))
     );
-  }
-
-  startService(serviceId: string) {
-    if (!this.getEnabledServices().includes(serviceId)) {
-      throw new Error(
-        `Service "${serviceId}" does not exist and can't be started.`
-      );
-    }
-
-    const adamiteConfig = this.getAdamiteConfig();
-    const service = adamiteConfig.services[serviceId];
-
-    service.service(service.config, adamiteConfig);
   }
 }
