@@ -1,7 +1,7 @@
 {
   "name": "@adamite/cli",
   "description": "Generate and manage Adamite instances",
-  "version": "0.1.0-beta.0",
+  "version": "0.1.0-beta.1",
   "author": "Jesse Dunlap @JesseDunlap",
   "bin": {
     "adamite": "./bin/run"
@@ -23,6 +23,7 @@
     "@oclif/dev-cli": "^1",
     "@oclif/tslint": "^3",
     "@types/command-exists": "^1.2.0",
+    "@types/concurrently": "^4.1.0",
     "@types/download": "^6.2.4",
     "@types/inquirer": "^6.0.3",
     "@types/node": "^10",

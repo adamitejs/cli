@@ -21,7 +21,7 @@ $ npm install -g @adamite/cli
 $ adamite COMMAND
 running command...
 $ adamite (-v|--version|version)
-@adamite/cli/0.1.0-beta.0 darwin-x64 node-v8.15.1
+@adamite/cli/0.1.0-beta.1 darwin-x64 node-v8.15.1
 $ adamite --help [COMMAND]
 USAGE
   $ adamite COMMAND
@@ -59,5 +59,5 @@ USAGE
   $ adamite start [EXECUTABLE]
 ```
 
-_See code: [src/commands/start.ts](https://github.com/adamitejs/cli/blob/v0.1.0-beta.0/src/commands/start.ts)_
+_See code: [src/commands/start.ts](https://github.com/adamitejs/cli/blob/v0.1.0-beta.1/src/commands/start.ts)_
 <!-- commandsstop -->
