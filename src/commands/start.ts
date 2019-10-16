@@ -41,7 +41,8 @@ export default class Start extends Command {
     }
 
     if (!args.executable) {
-      adamiteHelper.startServices(["api", ...enabledServices]);
+      adamiteHelper.startServices(["api"]);
+      setTimeout(() => adamiteHelper.startServices(enabledServices), 1500);
     } else if (args.executable === "api") {
       adamiteHelper.startServices(["api"]);
     } else {
