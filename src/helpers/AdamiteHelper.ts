@@ -31,7 +31,12 @@ export default class AdamiteHelper {
 
   startServices(port: number, services: AdamiteService[]) {
     const rootConfig = this.getAdamiteConfig();
-    const manager = new RelayServer({ port, apiKey: rootConfig.api.key });
+
+    const manager = new RelayServer({
+      port,
+      apiKey: rootConfig.api.key,
+      authSecret: this.getAuthSecret()
+    });
 
     services.forEach(service =>
       this.startService(manager, service, rootConfig)
@@ -44,5 +49,12 @@ export default class AdamiteHelper {
     rootConfig: AdamiteConfig
   ) {
     new service.service(server, service.options, rootConfig);
+  }
+
+  private getAuthSecret() {
+    const rootConfig = this.getAdamiteConfig();
+    const authService = rootConfig.services.find(s => s.name === "auth");
+    if (!authService) return;
+    return authService.options.secret;
   }
 }
