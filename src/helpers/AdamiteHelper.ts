@@ -1,6 +1,9 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as concurrently from "concurrently";
+import { AdamiteConfig } from "../types/AdamiteConfig";
+import { AdamiteService } from "../types/AdamiteService";
+import RelayServer from "@adamite/relay-server";
 
 export default class AdamiteHelper {
   verifyCwdIsAdamiteProject() {
@@ -10,7 +13,7 @@ export default class AdamiteHelper {
   }
 
   getAdamiteConfig() {
-    return require(this.getAdamiteConfigPath());
+    return require(this.getAdamiteConfigPath()) as AdamiteConfig;
   }
 
   getAdamiteConfigPath() {
@@ -23,15 +26,23 @@ export default class AdamiteHelper {
 
   getEnabledServices() {
     const { services } = this.getAdamiteConfig();
-    return Object.keys(services);
+    return services;
   }
 
-  startServices(services: string[]) {
-    return concurrently(
-      services.map(s => ({
-        command: `node bin/${s}`,
-        name: s
-      }))
+  startServices(port: number, services: AdamiteService[]) {
+    const rootConfig = this.getAdamiteConfig();
+    const manager = new RelayServer({ port, apiKey: rootConfig.api.key });
+
+    services.forEach(service =>
+      this.startService(manager, service, rootConfig)
     );
+  }
+
+  startService(
+    server: RelayServer,
+    service: AdamiteService,
+    rootConfig: AdamiteConfig
+  ) {
+    new service.service(server, service.options, rootConfig);
   }
 }
