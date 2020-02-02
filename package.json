@@ -1,13 +1,14 @@
 {
   "name": "@adamite/cli",
   "description": "Generate and manage Adamite instances",
-  "version": "0.1.0-beta.2",
+  "version": "0.2.0-beta.0",
   "author": "Jesse Dunlap @JesseDunlap",
   "bin": {
     "adamite": "./bin/run"
   },
   "bugs": "https://github.com/adamitejs/cli/issues",
   "dependencies": {
+    "@adamite/relay-server": "^1.0.0-beta.0",
     "@oclif/command": "^1",
     "@oclif/config": "^1",
     "@oclif/plugin-help": "^2",
@@ -17,7 +18,9 @@
     "concurrently": "^5.0.0",
     "download": "^7.1.0",
     "inquirer": "^6.5.0",
-    "tslib": "^1"
+    "root-require": "^0.3.1",
+    "tslib": "^1",
+    "uuid": "^3.4.0"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1",
@@ -27,6 +30,7 @@
     "@types/download": "^6.2.4",
     "@types/inquirer": "^6.0.3",
     "@types/node": "^10",
+    "@types/uuid": "^3.4.7",
     "globby": "^10",
     "ts-node": "^8",
     "tslint": "^5",

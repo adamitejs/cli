@@ -1,6 +1,7 @@
 import { Command, flags } from "@oclif/command";
 import AdamiteHelper from "../helpers/AdamiteHelper";
 import chalk from "chalk";
+const packageJson = require("root-require")("package.json");
 
 export default class Start extends Command {
   static description = "starts an Adamite server";
@@ -18,36 +19,50 @@ export default class Start extends Command {
     console.log(chalk.inverse(name));
     console.log(`v${version}\n`);
 
+    console.log("Environment info:");
+    console.log(`  * node:  ${process.version}`);
+    console.log(`  *  cli:  v${packageJson.version}`);
+    console.log("\n");
+
+    if (!adamiteHelper.getApiKey()) {
+      adamiteHelper.generateApiKey();
+    }
+
+    console.log(
+      "Your API Key:\n  " + chalk.yellow(adamiteHelper.getApiKey()) + "\n"
+    );
+
+    const port = adamiteHelper.getAdamiteConfig().api.port;
+
     const enabledServices = adamiteHelper.getEnabledServices();
     const totalServices = enabledServices.length;
 
-    console.log(`Found ${chalk.bold(totalServices + " services")}...`);
-    console.log(enabledServices.map(s => chalk.green(s)).join(", ") + "\n");
+    console.log(`Found ${chalk.bold(totalServices + " services")}:`);
+    console.log(
+      "  * " +
+        enabledServices.map(s => chalk.green(s.name)).join("\n  * ") +
+        "\n"
+    );
 
-    if (
-      args.executable &&
-      args.executable !== "api" &&
-      !enabledServices.includes(args.executable)
-    ) {
+    if (args.executable && !enabledServices.includes(args.executable)) {
       console.log(
         `${chalk.red("Error")}: Invalid executable: ${chalk.red(
           args.executable
         )}`
       );
 
-      console.log("Available options: api, " + enabledServices.join(", "));
+      console.log("Available options: " + enabledServices.join(", "));
 
       return;
     }
 
     if (!args.executable) {
-      adamiteHelper.startServices(["api"]);
-      setTimeout(() => adamiteHelper.startServices(enabledServices), 1500);
-    } else if (args.executable === "api") {
-      adamiteHelper.startServices(["api"]);
+      adamiteHelper.startServices(port, enabledServices);
     } else {
-      adamiteHelper.startServices([args.executable]);
+      adamiteHelper.startServices(port, [args.executable]);
     }
+
+    console.log("🎉  " + chalk.bgGreen(`listening on port ${port}`));
   }
 
   getRequiredServices(specifiedServices: string, allServices: string[]) {
