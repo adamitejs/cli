@@ -28,7 +28,14 @@ export default class AdamiteHelper {
   generateApiKey() {
     const apiKey = uuid.v4();
     const apiJson = JSON.stringify({ key: apiKey }, null, 2);
-    fs.writeFileSync(path.join(process.cwd(), "data", "api.json"), apiJson);
+
+    if (!fs.existsSync(path.join(process.cwd(), "data"))) {
+      fs.mkdirSync(path.join(process.cwd(), "data"));
+    }
+
+    if (!fs.existsSync(path.join(process.cwd(), "data", "api.json"))) {
+      fs.writeFileSync(path.join(process.cwd(), "data", "api.json"), apiJson);
+    }
   }
 
   getAdamiteConfig() {
