@@ -15,7 +15,6 @@ export default class Start extends Command {
     adamiteHelper.verifyCwdIsAdamiteProject();
 
     const { name, version } = adamiteHelper.getPackageJson();
-    const port = process.env.PORT ? parseInt(process.env.PORT) : 9000;
 
     console.log(chalk.inverse(name));
     console.log(`v${version}\n`);
@@ -24,6 +23,16 @@ export default class Start extends Command {
     console.log(`  * node:  ${process.version}`);
     console.log(`  *  cli:  v${packageJson.version}`);
     console.log("\n");
+
+    if (!adamiteHelper.getApiKey()) {
+      adamiteHelper.generateApiKey();
+    }
+
+    console.log(
+      "Your API Key:\n  " + chalk.yellow(adamiteHelper.getApiKey()) + "\n"
+    );
+
+    const port = adamiteHelper.getAdamiteConfig().api.port;
 
     const enabledServices = adamiteHelper.getEnabledServices();
     const totalServices = enabledServices.length;

@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import * as concurrently from "concurrently";
+import * as uuid from "uuid";
 import { AdamiteConfig } from "../types/AdamiteConfig";
 import { AdamiteService } from "../types/AdamiteService";
 import RelayServer from "@adamite/relay-server";
@@ -10,6 +10,25 @@ export default class AdamiteHelper {
     if (!fs.existsSync(this.getAdamiteConfigPath())) {
       throw new Error(process.cwd() + " is not an Adamite project.");
     }
+  }
+
+  getApiKey() {
+    if (fs.existsSync(path.join(process.cwd(), "data", "api.json"))) {
+      const apiJsonContents = fs.readFileSync(
+        path.join(process.cwd(), "data", "api.json"),
+        "utf-8"
+      );
+
+      const apiJson = JSON.parse(apiJsonContents);
+
+      return apiJson.key;
+    }
+  }
+
+  generateApiKey() {
+    const apiKey = uuid.v4();
+    const apiJson = JSON.stringify({ key: apiKey }, null, 2);
+    fs.writeFileSync(path.join(process.cwd(), "data", "api.json"), apiJson);
   }
 
   getAdamiteConfig() {
